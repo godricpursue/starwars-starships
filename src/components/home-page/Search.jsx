@@ -10,7 +10,7 @@ function Search() {
         type="text"
         placeholder="What are you looking for?"
       />
-      <button className="text-star-yellow font-gemunu text-xl outline rounded-xl py-2 px-6">
+      <button className="text-star-yellow font-gemunu text-xl outline capitalize rounded-xl hover:brightness-200 active:scale-105 py-2 px-6">
         Search
       </button>
     </div>
