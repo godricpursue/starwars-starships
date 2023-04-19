@@ -1,20 +1,28 @@
 import React from "react";
+import slugify from "slugify";
 
-function Card() {
+function Card(props) {
+  const { name, model, rating } = props;
   return (
-    <div className="group overflow-hidden ml-3 mt-5 cursor-pointer">
-      <div className="w-48 h-72 bg-white bg-opacity-20 backdrop-blur-sm rounded-lg drop-shadow-0 relative">
-        <div className="absolute bottom-36 group-hover:bottom-32 group-hover:py-8 group-hover:mx-2 group-hover:my-2 duration-500">
-          <img src="./starships/cr90_corvette.png" alt="" />
-        </div>
+    <div className="group ml-3 mt-5 cursor-pointer">
+      <div className="w-56 h-96 bg-white bg-opacity-20 backdrop-blur-sm rounded-lg drop-shadow-0 relative">
         <div className="flex justify-center">
-          <h2 className="absolute px-3 bottom-16 text-center capitalize text-3xl font-gemunu text-star-yellow group-hover:bottom-20 duration-500 font-bold">
-            CR90 Corvette
-          </h2>
+          <div className="absolute bottom-40 p-3  mx-2 w-48 h-48 flex items-center justify-center overflow-hidden ">
+            <img
+              className="group-hover:scale-110 duration-500"
+              src={`./starships/${slugify(name, "_")}.png`}
+              alt=""
+            />
+          </div>
         </div>
-        <div className="absolute px-10 bottom-4 group-hover:bottom-8 flex flex-col items-center font-open opacity-0 group-hover:opacity-100 duration-500 text-star-yellow brightness-200">
-          <p>CR90 Corvette</p>
-          <p className="font-gemunu">Rating: 2.0</p>
+        <div className="absolute bottom-0 w-full group-hover:bottom-3 duration-500 ">
+          <h2 className="absolute px-3 bottom-20 text-center capitalize text-3xl font-gemunu text-star-yellow duration-500 font-bold w-full">
+            {name}
+          </h2>
+          <div className="absolute px-3 bottom-2 flex flex-col items-center font-open opacity-0 group-hover:opacity-100 duration-500 text-star-yellow brightness-200 text-center w-full">
+            <p className="capitalize">{model}</p>
+            <p className="font-gemunu">Rating: {rating}</p>
+          </div>
         </div>
       </div>
     </div>

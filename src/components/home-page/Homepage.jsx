@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Title from "./Title";
 import Search from "./Search";
 import Card from "./Card";
 import Footer from "../Footer";
+import LoadMore from "./LoadMore";
+
+import getStarships from "../../starshipService";
 
 function Homepage() {
+  const [page, setPage] = useState(1);
+  const [starships, setStarships] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    (async () => {
+      const ships = await getStarships(page);
+      setStarships((prev) => [...prev, ...ships]);
+      setIsLoading(false);
+    })();
+  }, [page]);
+
   return (
     <div className="bg-black">
       <div
@@ -13,21 +29,24 @@ function Homepage() {
       >
         <div className="container lg:w-9/12">
           <Title />
-
-          <div className="flex justify-center">
-            <Search />
-          </div>
+          <Search />
 
           <div className="flex flex-wrap py-10 justify-center">
-            <Card />
-            <Card />
-            <Card />
+            {isLoading && starships.length === 0 ? (
+              <p>Loading...</p>
+            ) : (
+              starships.map((starship, index) => (
+                <Card
+                  key={index}
+                  name={starship.name}
+                  model={starship.model}
+                  rating={starship.hyperdrive_rating}
+                />
+              ))
+            )}
           </div>
-          <div className="flex justify-center py-20">
-            <button className="text-star-yellow font-gemunu text-xl outline uppercase hover:brightness-200 active:scale-105 rounded-xl py-2 px-6">
-              Load More
-            </button>
-          </div>
+
+          {page < 4 ? <LoadMore page={page} setPage={setPage} /> : null}
           <Footer />
         </div>
       </div>
