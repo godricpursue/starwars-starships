@@ -38,7 +38,7 @@ function Homepage() {
           <Title />
           <Search />
 
-          <div className="flex flex-wrap py-10 justify-center">
+          <div className="flex flex-wrap justify-center py-10">
             {isLoading && starships.length === 0 ? (
               <Loading />
             ) : (

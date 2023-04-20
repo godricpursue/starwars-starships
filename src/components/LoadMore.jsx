@@ -13,12 +13,12 @@ function LoadMore(props) {
         <button
           disabled
           type="button"
-          class="text-star-yellow bg-transparent font-gemunu text-xl outline uppercase focus:ring-4 focus:ring-star-yellow font-medium rounded-xl py-2 px-6 text-center mr-2  inline-flex items-center"
+          class="mr-2 inline-flex items-center rounded-xl bg-transparent px-6 py-2 text-center font-gemunu text-xl font-medium uppercase text-star-yellow outline  focus:ring-4 focus:ring-star-yellow"
         >
           <svg
             aria-hidden="true"
             role="status"
-            class="inline w-4 h-4 mr-3 text-star-yellow animate-spin"
+            class="mr-3 inline h-4 w-4 animate-spin text-star-yellow"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +37,7 @@ function LoadMore(props) {
       ) : (
         <button
           onClick={() => handleClick(page)}
-          className="text-star-yellow font-gemunu text-xl outline uppercase hover:brightness-200 active:scale-105 rounded-xl py-2 px-6"
+          className="rounded-xl px-6 py-2 font-gemunu text-xl uppercase text-star-yellow outline hover:brightness-200 active:scale-105"
         >
           Load More
         </button>

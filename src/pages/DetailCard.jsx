@@ -37,7 +37,7 @@ function DetailCard() {
         style={{ backgroundImage: 'url("./image/dark-cosmos.jpg")' }}
       >
         {/* -- SVG BACK ARROW -- */}
-        <div className="w-10 ml-4 pt-4">
+        <div className="ml-4 w-10 pt-4">
           <Link to="/" className="hover:brightness-200">
             <svg
               viewBox="0 0 1024 1024"
@@ -62,11 +62,11 @@ function DetailCard() {
           </Link>
         </div>
         {/* -- STARSHIP CARD -- */}
-        <div className="h-screen flex justify-center items-center cursor-default">
-          <div className=" w-112 h-128 mx-10 lg:mx-0 bg-white bg-opacity-20 backdrop-blur-sm rounded-lg drop-shadow-0 relative group">
+        <div className="flex h-screen cursor-default items-center justify-center">
+          <div className=" drop-shadow-0 group relative mx-10 h-128 w-112 rounded-lg bg-white bg-opacity-20 backdrop-blur-sm lg:mx-0">
             {/* -- STARSHIP IMAGE -- */}
             <div className="flex justify-center">
-              <div className="absolute bottom-80 m-8 w-48 h-48 flex items-center justify-center">
+              <div className="absolute bottom-80 m-8 flex h-48 w-48 items-center justify-center">
                 <img
                   src={`./starships/${slugify(cardDetails.name, "_")}.png`}
                   alt=""
@@ -76,14 +76,14 @@ function DetailCard() {
 
             {/* -- STARSHIP NAME -- */}
             <div className="flex justify-center">
-              <h2 className="absolute px-3 my-3 bottom-72 text-center capitalize text-3xl font-gemunu text-star-yellow  font-bold">
+              <h2 className="absolute bottom-72 my-3 px-3 text-center font-gemunu text-3xl font-bold capitalize  text-star-yellow">
                 {cardDetails.name}
               </h2>
             </div>
             {/* -- STARSHIP DETAILS -- */}
             <div className="flex justify-center">
-              <div className="absolute px-10 bottom-6 justify-center text-center font-gemunu opacity-100 text-star-yellow brightness-200">
-                <p className=" text-lg font-open brightness-75">
+              <div className="absolute bottom-6 justify-center px-10 text-center font-gemunu text-star-yellow opacity-100 brightness-200">
+                <p className=" font-open text-lg brightness-75">
                   {cardDetails.model}
                 </p>
                 <br />

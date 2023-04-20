@@ -3,8 +3,8 @@ import React from "react";
 function Footer() {
   return (
     <div>
-      <div className="flex justify-center pt-20 pb-10">
-        <p className="text-star-yellow text-xs">
+      <div className="flex justify-center pb-10 pt-20">
+        <p className="text-xs text-star-yellow">
           Created by{" "}
           <a
             className=" font-semibold hover:brightness-200"
