@@ -1,7 +1,35 @@
-import React from "react";
-import Footer from "../Footer";
+import React, { useEffect } from "react";
+import Footer from "../components/Footer";
+import { useStarships } from "../components/context/starshipsContext";
+import slugify from "slugify";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 function DetailCard() {
+  const { id } = useParams();
+  const { pathname } = useLocation();
+  const { starships } = useStarships();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  let cardDetails = {};
+  starships.map((starship) => {
+    let stringify = String(starship.name);
+    if (slugify(stringify, "_") === id) {
+      return (cardDetails = {
+        name: starship.name,
+        model: starship.model,
+        manufacturer: starship.manufacturer,
+        max_atmosphering_speed: starship.max_atmosphering_speed,
+        crew: starship.crew,
+        cargo_capacity: starship.cargo_capacity,
+        passengers: starship.passengers,
+        rating: starship.hyperdrive_rating,
+      });
+    }
+  });
+
   return (
     <div className="bg-black">
       <div
@@ -10,7 +38,7 @@ function DetailCard() {
       >
         {/* -- SVG BACK ARROW -- */}
         <div className="w-10 ml-4 pt-4">
-          <a className="hover:brightness-200" href="#">
+          <Link to="/" className="hover:brightness-200">
             <svg
               viewBox="0 0 1024 1024"
               class="icon"
@@ -31,54 +59,62 @@ function DetailCard() {
                 ></path>
               </g>
             </svg>
-          </a>
+          </Link>
         </div>
         {/* -- STARSHIP CARD -- */}
         <div className="h-screen flex justify-center items-center cursor-default">
           <div className=" w-112 h-128 mx-10 lg:mx-0 bg-white bg-opacity-20 backdrop-blur-sm rounded-lg drop-shadow-0 relative group">
             {/* -- STARSHIP IMAGE -- */}
-            <div className="absolute bottom-80 mx-8 my-8 ">
-              <img src="./starships/cr90_corvette.png" alt="" />
+            <div className="flex justify-center">
+              <div className="absolute bottom-80 m-8 w-48 h-48 flex items-center justify-center">
+                <img
+                  src={`./starships/${slugify(cardDetails.name, "_")}.png`}
+                  alt=""
+                />
+              </div>
             </div>
+
             {/* -- STARSHIP NAME -- */}
             <div className="flex justify-center">
-              <h2 className="absolute px-3 bottom-72 text-center capitalize text-3xl font-gemunu text-star-yellow  font-bold">
-                CR90 Corvette
+              <h2 className="absolute px-3 my-3 bottom-72 text-center capitalize text-3xl font-gemunu text-star-yellow  font-bold">
+                {cardDetails.name}
               </h2>
             </div>
             {/* -- STARSHIP DETAILS -- */}
             <div className="flex justify-center">
-              <div className="absolute px-10 bottom-8 justify-center text-center font-gemunu opacity-100 text-star-yellow brightness-200">
+              <div className="absolute px-10 bottom-6 justify-center text-center font-gemunu opacity-100 text-star-yellow brightness-200">
                 <p className=" text-lg font-open brightness-75">
-                  CR90 Corvette
+                  {cardDetails.model}
                 </p>
                 <br />
                 <table>
                   <tr>
                     <td className="text-left">Max Atmosphering Speed</td>
-                    <td className="text-right">950</td>
+                    <td className="text-right">
+                      {cardDetails.max_atmosphering_speed}
+                    </td>
                   </tr>
                   <tr>
                     <td className="text-left">Passangers</td>
-                    <td className="text-right">600</td>
+                    <td className="text-right">{cardDetails.passengers}</td>
                   </tr>
                   <tr>
                     <td className="text-left">Crew</td>
-                    <td className="text-right">30-165</td>
+                    <td className="text-right">{cardDetails.crew}</td>
                   </tr>
                   <tr>
                     <td className="text-left">Cargo Capasity</td>
-                    <td className="text-right">3000000</td>
+                    <td className="text-right">{cardDetails.cargo_capacity}</td>
                   </tr>
                   <tr>
                     <td className="text-left">Manufacturer</td>
-                    <td className="text-right">
-                      Corellian Engineering Corporation
-                    </td>
+                    <td className="text-right">{cardDetails.manufacturer}</td>
                   </tr>
                 </table>
                 <br />
-                <p className="text-xl brightness-75">Rating: 2.0</p>
+                <p className="text-xl brightness-75">
+                  Rating: {cardDetails.rating}
+                </p>
               </div>
             </div>
           </div>

@@ -1,9 +1,15 @@
 import React from "react";
-import Homepage from "./components/home-page/Homepage";
-import DetailCard from "./components/starship/DetailCard";
+import Homepage from "./pages/Homepage";
+import DetailCard from "./pages/DetailCard";
+import { Route, Routes } from "react-router-dom";
 
 function App() {
-  return <Homepage />;
+  return (
+    <Routes>
+      <Route path="/" element={<Homepage />} />
+      <Route path="/:id" element={<DetailCard />} />
+    </Routes>
+  );
 }
 
 export default App;
