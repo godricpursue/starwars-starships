@@ -2,18 +2,24 @@ import React, { useEffect } from "react";
 import Footer from "../components/Footer";
 import { useStarships } from "../components/context/starshipsContext";
 import slugify from "slugify";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 
 function DetailCard() {
   const { id } = useParams();
   const { pathname } = useLocation();
   const { starships } = useStarships();
 
+  const navigate = useNavigate();
+  const goBack = () => {
+    navigate(-1);
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
   let cardDetails = {};
+  // eslint-disable-next-line array-callback-return
   starships.map((starship) => {
     let stringify = String(starship.name);
     if (slugify(stringify, "_") === id) {
@@ -38,10 +44,10 @@ function DetailCard() {
       >
         {/* -- SVG BACK ARROW -- */}
         <div className="ml-4 w-10 pt-4">
-          <Link to="/" className="hover:brightness-200">
+          <Link onClick={goBack} className="hover:brightness-200">
             <svg
               viewBox="0 0 1024 1024"
-              class="icon"
+              className="icon"
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
               fill="#000000"

@@ -13,12 +13,12 @@ function LoadMore(props) {
         <button
           disabled
           type="button"
-          class="mr-2 inline-flex items-center rounded-xl bg-transparent px-6 py-2 text-center font-gemunu text-xl font-medium uppercase text-star-yellow outline  focus:ring-4 focus:ring-star-yellow"
+          className="mr-2 inline-flex items-center rounded-xl bg-transparent px-6 py-2 text-center font-gemunu text-xl font-medium uppercase text-star-yellow outline  focus:ring-4 focus:ring-star-yellow"
         >
           <svg
             aria-hidden="true"
             role="status"
-            class="mr-3 inline h-4 w-4 animate-spin text-star-yellow"
+            className="mr-3 inline h-4 w-4 animate-spin text-star-yellow"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
