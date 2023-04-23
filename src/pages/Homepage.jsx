@@ -17,6 +17,7 @@ import ScrollToTop from "../components/ScrollToTop";
 function Homepage() {
   // Setting initial states using useState hook
   const [page, setPage] = useState(1); // current page number
+  const [prevPage, setPrevPage] = useState(0); // previously fetched page number
   const { starships, setStarships, filtered, filterText } = useStarships(); // fetching and updating starships data
   const [isLoading, setIsLoading] = useState(true); // managing loading state
   const [isSearching, setIsSearching] = useState(false); // managing searching state
@@ -25,16 +26,20 @@ function Homepage() {
   // Fetching starships data from server using async-await and updating state
   const getShips = async (page) => {
     setIsLoading(true);
+    setPrevPage(page); // update the previously fetched page number
     const ships = await getStarships(page);
     setStarships((prev) => [...prev, ...ships]);
     setIsLoading(false);
   };
 
   // Searching starships based on the search input and updating the state accordingly
-  const handleSearch = async () => {
+  const handleSearch = async (page) => {
     setIsSearching(true);
     setPage(page + 1);
-    await getShips(page);
+    // only call getShips if the current page number is not equal to the previously fetched page number
+    if (page !== prevPage) {
+      await getShips(page);
+    }
     setIsSearching(false);
     setTimeout(() => {
       setShowNoResults(filtered.length === 0); // show no results message if search result is empty
@@ -53,7 +58,7 @@ function Homepage() {
   // Searching starships data based on filter text and updating state using useEffect hook
   useEffect(() => {
     if (filterText.length > 0 && filtered.length === 0 && page < 4) {
-      handleSearch();
+      handleSearch(page);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterText, filtered]);
