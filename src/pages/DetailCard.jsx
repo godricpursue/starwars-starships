@@ -3,34 +3,12 @@ import Footer from "../components/Footer";
 import { useStarships } from "../components/context/starshipsContext";
 import slugify from "slugify";
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
+import { navigateBackSVG } from "../SVG";
 
 function DetailCard() {
   const { id } = useParams();
   const { pathname } = useLocation();
   const { starships } = useStarships();
-
-  const navigateBackSVG = (
-    <svg
-      viewBox="0 0 1024 1024"
-      className="icon"
-      version="1.1"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="#000000"
-    >
-      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-      <g
-        id="SVGRepo_tracerCarrier"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ></g>
-      <g id="SVGRepo_iconCarrier">
-        <path
-          d="M768 903.232l-50.432 56.768L256 512l461.568-448 50.432 56.768L364.928 512z"
-          fill="#ffe81f"
-        ></path>
-      </g>
-    </svg>
-  );
 
   const navigate = useNavigate();
   const goBack = () => {
@@ -42,7 +20,7 @@ function DetailCard() {
   }, [pathname]);
 
   let cardDetails = {};
-  // eslint-disable-next-line array-callback-return
+
   starships.map((starship) => {
     let stringify = String(starship.name);
     if (slugify(stringify, "_") === id) {
@@ -97,29 +75,34 @@ function DetailCard() {
                   {cardDetails.model}
                 </p>
                 <br />
+
                 <table>
-                  <tr>
-                    <td className="text-left">Max Atmosphering Speed</td>
-                    <td className="text-right">
-                      {cardDetails.max_atmosphering_speed}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="text-left">Passangers</td>
-                    <td className="text-right">{cardDetails.passengers}</td>
-                  </tr>
-                  <tr>
-                    <td className="text-left">Crew</td>
-                    <td className="text-right">{cardDetails.crew}</td>
-                  </tr>
-                  <tr>
-                    <td className="text-left">Cargo Capasity</td>
-                    <td className="text-right">{cardDetails.cargo_capacity}</td>
-                  </tr>
-                  <tr>
-                    <td className="text-left">Manufacturer</td>
-                    <td className="text-right">{cardDetails.manufacturer}</td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td className="text-left">Max Atmosphering Speed</td>
+                      <td className="text-right">
+                        {cardDetails.max_atmosphering_speed}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="text-left">Passangers</td>
+                      <td className="text-right">{cardDetails.passengers}</td>
+                    </tr>
+                    <tr>
+                      <td className="text-left">Crew</td>
+                      <td className="text-right">{cardDetails.crew}</td>
+                    </tr>
+                    <tr>
+                      <td className="text-left">Cargo Capasity</td>
+                      <td className="text-right">
+                        {cardDetails.cargo_capacity}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="text-left">Manufacturer</td>
+                      <td className="text-right">{cardDetails.manufacturer}</td>
+                    </tr>
+                  </tbody>
                 </table>
                 <br />
                 <p className="text-xl brightness-75">

@@ -11,14 +11,23 @@ import NoResults from "../components/NoResults";
 
 // Importing context and service used in the application
 import { useStarships } from "../components/context/starshipsContext";
-import getStarships from "../starshipService";
+import getStarships, { getSearch } from "../starshipService";
 import ScrollToTop from "../components/ScrollToTop";
+import useDebounce from "../hooks/useDebounce";
 
 function Homepage() {
   // Setting initial states using useState hook
-  const [page, setPage] = useState(1); // current page number
-  const [prevPage, setPrevPage] = useState(0); // previously fetched page number
-  const { starships, setStarships, filtered, filterText } = useStarships(); // fetching and updating starships data
+
+  const {
+    starships,
+    setStarships,
+    filtered,
+    setFiltered,
+    filterText,
+    page,
+    loadedPage,
+    setLoadedPage,
+  } = useStarships(); // fetching and updating starships data
   const [isLoading, setIsLoading] = useState(true); // managing loading state
   const [isSearching, setIsSearching] = useState(false); // managing searching state
   const [showNoResults, setShowNoResults] = useState(false); // managing state to show no search result message
@@ -26,42 +35,37 @@ function Homepage() {
   // Fetching starships data from server using async-await and updating state
   const getShips = async (page) => {
     setIsLoading(true);
-    setPrevPage(page); // update the previously fetched page number
+    setLoadedPage(page);
     const ships = await getStarships(page);
     setStarships((prev) => [...prev, ...ships]);
     setIsLoading(false);
   };
 
-  // Searching starships based on the search input and updating the state accordingly
-  const handleSearch = async (page) => {
+  const getSearchedShips = async (search) => {
     setIsSearching(true);
-    setPage(page + 1);
-    // only call getShips if the current page number is not equal to the previously fetched page number
-    if (page !== prevPage) {
-      await getShips(page);
-    }
+    const ships = await getSearch(search);
+    setFiltered(ships);
     setIsSearching(false);
-    setTimeout(() => {
-      setShowNoResults(filtered.length === 0); // show no results message if search result is empty
-    }, 3000); // wait for 3 seconds before showing no results message
   };
+
+  const debouncedSearch = useDebounce(filterText, 400);
+
+  useEffect(() => {
+    if (filterText.length > 0) {
+      getSearchedShips(debouncedSearch);
+      setShowNoResults(filtered.length === 0 && !isSearching);
+    } else if (filterText.length === 0) {
+      setFiltered([]);
+    }
+  }, [debouncedSearch]);
 
   // Fetching starships data on page load and updating state using useEffect hook
   useEffect(() => {
     setIsLoading(false);
-    if (starships.length === 0 || page > 1) {
+    if (starships.length === 0 || page > loadedPage) {
       getShips(page);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
-
-  // Searching starships data based on filter text and updating state using useEffect hook
-  useEffect(() => {
-    if (filterText.length > 0 && filtered.length === 0 && page < 4) {
-      handleSearch(page);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterText, filtered]);
 
   return (
     <div className="bg-black">
@@ -111,8 +115,10 @@ function Homepage() {
             )}
           </div>
 
-          {(page < 4 || isLoading) && starships.length !== 0 ? (
-            <LoadMore isLoading={isLoading} page={page} setPage={setPage} />
+          {(page < 4 || isLoading) &&
+          starships.length !== 0 &&
+          filterText.length === 0 ? (
+            <LoadMore isLoading={isLoading} />
           ) : null}
 
           <Footer />

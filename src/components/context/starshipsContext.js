@@ -7,19 +7,8 @@ export const StarshipsProvider = ({ children }) => {
   const [starships, setStarships] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [filtered, setFiltered] = useState([]);
-
-  // Filtering starships data based on filter text
-  useEffect(() => {
-    const results = starships.filter((item) => {
-      return ["name", "model"].some((key) => {
-        return item[key]
-          .toString()
-          .toLowerCase()
-          .includes(filterText.toLowerCase());
-      });
-    });
-    setFiltered(results);
-  }, [starships, filterText]);
+  const [page, setPage] = useState(1); // current page number
+  const [loadedPage, setLoadedPage] = useState(0);
 
   const values = {
     starships,
@@ -27,6 +16,11 @@ export const StarshipsProvider = ({ children }) => {
     filterText,
     setFilterText,
     filtered,
+    setFiltered,
+    page,
+    setPage,
+    loadedPage,
+    setLoadedPage,
   };
 
   return (
