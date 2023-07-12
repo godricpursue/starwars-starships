@@ -2,7 +2,9 @@
 
 This is a React.js app that displays and searches starships data from the Star Wars API. The app is built using React.js, Tailwind CSS, Axios, and Router. The app lists the starships and displays their names, models, and hyperdrive ratings. Users can search for starships based on their names or models using a single input field. Users can click on a starship item to see its details, including passengers, maximum atmospheric speed, manufacturer, crew, and cargo capacity, in addition to the name and model. Users can also go back to the home page from the detail page.
 
+## Try it out!
 
+https://64aedff73ccad000aa583d61--jade-lokum-c036b9.netlify.app/
 
 ## Technologies
 
