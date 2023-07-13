@@ -8,7 +8,7 @@ import { navigateBackSVG } from "../SVG";
 function DetailCard() {
   const { id } = useParams();
   const { pathname } = useLocation();
-  const { starships } = useStarships();
+  const { starships, filterText, filtered } = useStarships();
 
   const navigate = useNavigate();
   const goBack = () => {
@@ -19,23 +19,16 @@ function DetailCard() {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  let cardDetails = {};
-
-  starships.map((starship) => {
-    let stringify = String(starship.name);
-    if (slugify(stringify, "_") === id) {
-      return (cardDetails = {
-        name: starship.name,
-        model: starship.model,
-        manufacturer: starship.manufacturer,
-        max_atmosphering_speed: starship.max_atmosphering_speed,
-        crew: starship.crew,
-        cargo_capacity: starship.cargo_capacity,
-        passengers: starship.passengers,
-        rating: starship.hyperdrive_rating,
-      });
-    }
-  });
+  const cardDetails =
+    filterText.length > 0
+      ? filtered.find((starship) => {
+          const stringify = String(starship.name);
+          return slugify(stringify, "_") === id;
+        })
+      : starships.find((starship) => {
+          const stringify = String(starship.name);
+          return slugify(stringify, "_") === id;
+        });
 
   return (
     <div className="bg-black">
@@ -106,7 +99,7 @@ function DetailCard() {
                 </table>
                 <br />
                 <p className="text-xl brightness-75">
-                  Rating: {cardDetails.rating}
+                  Rating: {cardDetails.hyperdrive_rating}
                 </p>
               </div>
             </div>
